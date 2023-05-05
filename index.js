@@ -11,16 +11,17 @@ app.use(express.json());
 
 app.post("/send-wa", async (req, res) => {
   const { id, buyerPhone, product, price } = req.body;
+  const dataBody = {
+    messaging_product: "whatsapp",
+    to: buyerPhone,
+    type: "template",
+    template: { name: "hello_world", language: { code: "en_US" } },
+  };
 
   try {
     await axios.post(
       `https://graph.facebook.com/${apiVersion}/${senderPhone}/messages`,
-      {
-        messaging_product: "whatsapp",
-        to: buyerPhone,
-        type: "template",
-        template: { name: "hello_world", language: { code: "en_US" } },
-      },
+      dataBody,
       {
         headers: {
           authorization: `Bearer ${token}`,
@@ -30,7 +31,10 @@ app.post("/send-wa", async (req, res) => {
 
     res.send({ status: "success" });
   } catch (error) {
-    console.log(error.response);
+    console.log({
+      dataBody,
+      error: error.response.data,
+    });
     res.status(500).send(error.response.data);
   }
 });
