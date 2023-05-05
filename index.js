@@ -3,15 +3,14 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
+const apiVersion = process.env.API_VERSION;
+const senderPhone = process.env.SENDERPHONE;
+const token = process.env.WA_TOKEN;
+
 app.use(express.json());
 
 app.post("/send-wa", async (req, res) => {
   const { id, buyerPhone, product, price } = req.body;
-
-  const apiVersion = "v16.0";
-  const senderPhone = "106251159133816";
-  const token =
-    "EAAKtM6JlzZBkBABCJvPPoDk8LdfEIG3cGipUIu6epbLSX4iAgdYGnsKgbJlyMOA8nghGvuOyZB9rspErKD0HFTny1KEJElOVNNqgiNPVpZAFeLRhw1VyG6TLusmXVBh359zYAczN82kmyWcelHsn2ZAYq1aLsMlEuKYwx79wsgTdFyTgDKTZACZAbWfw3D5ZBZBniL3MZB45HCwZDZD";
 
   try {
     await axios.post(
